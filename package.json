@@ -1,0 +1,43 @@
+{
+  "name": "grok-bot-gb-cli",
+  "version": "0.1.0",
+  "description": "Unofficial CLI for supported Grok Bot local and app-session gateway profiles",
+  "type": "module",
+  "bin": {
+    "gb": "bin/gb.js"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "skills/gb-cli/",
+    "README.md",
+    "LICENSE",
+    "SECURITY.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test",
+    "check": "node --check bin/gb.js && node --check src/app-session.js && node --check src/cli.js && node --check src/discovery.js && node --check src/http.js && node --check src/sse.js && scripts/validate-skills",
+    "check:package": "node scripts/check-package-files.mjs"
+  },
+  "keywords": [
+    "grok-bot",
+    "cli",
+    "agent"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asura-ai-dev/gb-cli.git"
+  },
+  "homepage": "https://github.com/asura-ai-dev/gb-cli#readme",
+  "bugs": {
+    "url": "https://github.com/asura-ai-dev/gb-cli/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "dependencies": {}
+}

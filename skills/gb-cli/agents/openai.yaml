@@ -1,0 +1,4 @@
+interface:
+  display_name: "gb-cli"
+  short_description: "Grok Bot local/dev gatewayと承認済みapp-sessionを直接操作"
+  default_prompt: "Use $gb-cli for a Grok Bot local/dev gateway or an explicitly approved desktop app-session; v0.30 routes exact-ID agent operations directly through the gateway without a dedicated Temporal backend or any implied remote or credential-access approval."

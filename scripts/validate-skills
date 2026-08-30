@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root=$(cd "$(dirname "$0")/.." && pwd)
+skill_dir="$repo_root/skills/gb-cli"
+skill_file="$skill_dir/SKILL.md"
+openai_file="$skill_dir/agents/openai.yaml"
+
+fail() {
+  echo "validate-skills: $*" >&2
+  exit 1
+}
+
+[[ -f "$skill_file" ]] || fail "skills/gb-cli/SKILL.md がありません"
+[[ -f "$openai_file" ]] || fail "skills/gb-cli/agents/openai.yaml がありません"
+
+line_count=$(wc -l < "$skill_file" | tr -d ' ')
+(( line_count >= 60 && line_count <= 150 )) || fail "SKILL.md は60〜150行にしてください（現在: ${line_count}行）"
+
+[[ $(sed -n '1p' "$skill_file") == "---" ]] || fail "frontmatter の開始行がありません"
+frontmatter=$(sed -n '2,/^---$/p' "$skill_file" | sed '$d')
+frontmatter_keys=$(printf '%s\n' "$frontmatter" | sed -n 's/^\([A-Za-z0-9_-]*\):.*/\1/p')
+[[ "$frontmatter_keys" == $'name\ndescription' ]] || fail "frontmatter は name と description のみにしてください"
+grep -qx 'name: gb-cli' "$skill_file" || fail "skill name は gb-cli にしてください"
+
+grep -Eq '^  display_name: ".+"$' "$openai_file" || fail "display_name は quote してください"
+grep -Eq '^  short_description: ".+"$' "$openai_file" || fail "short_description は quote してください"
+grep -Fq 'default_prompt: "Use $gb-cli ' "$openai_file" || fail 'default_prompt に $gb-cli を含めてください'
+
+for reference in commands.md safety.md; do
+  [[ -f "$skill_dir/references/$reference" ]] || fail "references/$reference がありません"
+  grep -Fq "references/$reference" "$skill_file" || fail "SKILL.md から references/$reference が参照されていません"
+done
+
+if grep -RInE '\b(TODO|FIXME|TBD|PLACEHOLDER)\b|<replace[-_ ]?me>' "$skill_dir"; then
+  fail "skill に未完placeholderがあります"
+fi
+
+for link in "$repo_root/.agents/skills/gb-cli" "$repo_root/.claude/skills/gb-cli"; do
+  [[ -L "$link" ]] || fail "$link は symlink である必要があります"
+  target=$(readlink "$link")
+  [[ "$target" != /* ]] || fail "$link は relative symlink にしてください"
+  [[ -f "$link/SKILL.md" ]] || fail "$link が skill directory を解決できません"
+  resolved=$(cd "$link" && pwd -P)
+  expected=$(cd "$skill_dir" && pwd -P)
+  [[ "$resolved" == "$expected" ]] || fail "$link は skills/gb-cli 正本を指してください"
+done
+
+echo "validate-skills: OK"
