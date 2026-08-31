@@ -13,18 +13,19 @@ Grok Bot desktop のlocal gatewayまたは明示承認済みremote app session�
 
 ## インストール
 
-現在利用できる導線は source checkout です。
+現在利用できる導線は、このリポジトリの source checkout です。npm registry package や GitHub Release は提供していません。
 
 ```sh
+git clone https://github.com/asura-ai-dev/gb-cli.git
+cd gb-cli
 npm install
 npm link
 gb --help
 ```
 
-一時的な実行には `npm exec -- gb --help` も使えます。
-registry公開後は `npm install -g grok-bot-gb-cli` でも導入できる予定ですが、現時点で公開済みとは限りません。
+global linkを作らずcheckout内から実行する場合は、`node ./bin/gb.js --help` を使えます。
 
-npm packageにはCLIとcanonicalな `skills/gb-cli/` が含まれますが、skillを自動登録しません。source checkoutではCodex向け `.agents/skills/gb-cli` とClaude Code向け `.claude/skills/gb-cli` の既存symlinkがcanonical skillを指します。packageから利用する場合は、利用中のagent環境のskill directoryへ `skills/gb-cli/` を明示的にlinkしてください。install時にskill登録やcredential accessを行うscriptはありません。
+source checkoutにはCLIとcanonicalな `skills/gb-cli/` が含まれます。Codex向け `.agents/skills/gb-cli` とClaude Code向け `.claude/skills/gb-cli` の既存symlinkがcanonical skillを指します。install時にskill登録やcredential accessを行うscriptはありません。
 
 Codex / Claude Codeへ通常版desktopの診断を依頼する時は、接続許可も同じ依頼で明記します。
 
@@ -174,6 +175,10 @@ npm test
 ```
 
 agent から利用する場合は、リポジトリ同梱の `$gb-cli` skill を参照してください。
+
+## サポート方針
+
+現時点の保守対象は、デフォルトブランチ `main` の最新ソースだけです。過去のcommit、fork、変更済みbuild、Grok Bot本体やxAIのサービスは対象外です。IssueとPull Requestは受け付けますが、対応時期や製品更新後の互換性は保証しません。脆弱性の報告は [セキュリティポリシー](./SECURITY.md) に従ってください。
 
 ## ライセンス
 

@@ -10,7 +10,7 @@ Private vulnerability reportingが無効、または上記リンクを利用で�
 
 ## 対象範囲
 
-現時点は初回release前のため、公開されたsupported releaseはありません。初回release後は、このリポジトリの最新releaseだけを保守対象とします。Grok Bot 本体、xAI のサービス、第三者の環境に関する問題は、それぞれの提供元へ報告してください。
+現時点ではnpm registry packageやGitHub Releaseを提供していません。セキュリティ修正は、デフォルトブランチ `main` の最新ソースだけを対象にbest effortで行います。過去のcommit、fork、変更済みbuildは保守対象外です。Grok Bot本体、xAIのサービス、第三者の環境に関する問題は、それぞれの提供元へ報告してください。
 
 `gateway.json` の token、Authorization header、会話内容、ユーザー識別子などを、Issue、ログ、スクリーンショットへ含めないでください。`--app-session` の調査では、app descriptor、Keychain password、復号済みconnection、remote URL、routing header値も同様に扱ってください。報告の確認中も、実環境への侵入、永続化、データ持ち出しは行わないでください。
 

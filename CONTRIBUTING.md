@@ -23,6 +23,6 @@ npm test
 
 release、version bump、publish は保守者が明示的に実施します。
 
-## 公開前の保守者確認
+## GitHubの保守者設定
 
-初回公開前に、保守者はGitHubでPrivate vulnerability reportingを有効化し、`SECURITY.md` のadvisory linkがprivate report作成画面へ到達することを確認してください。このリポジトリのコード変更だけではGitHub側の設定は変更されません。
+リポジトリをPublicにした後、保守者はGitHubでPrivate vulnerability reportingを有効化し、`SECURITY.md` のadvisory linkがprivate report作成画面へ到達することを確認してください。このリポジトリのコード変更だけではGitHub側の設定は変更されません。
